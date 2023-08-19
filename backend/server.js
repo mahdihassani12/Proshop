@@ -1,25 +1,18 @@
 import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
-import products from "./data/products.js";
+
 import connectDB from './config/db.js';
 connectDB();
 
 const port = process.env.PORT || 5000;
-
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("Hello world");
-});
+import products from './routes/products.js';
+import home from './routes/home.js';
 
-app.get("/api/products", (req, res) => {
-  res.json(products);
-});
+app.use('/', home);
+app.use('/api/products', products);
 
-app.get("/api/products/:id", (req, res) => {
-  const product = products.find((p) => p._id === req.params.id);
-  res.json(product);
-});
 
 app.listen(port, () => console.log(`Server is runing on port ${port}`));
