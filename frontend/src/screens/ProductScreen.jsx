@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import {
   Row,
@@ -7,10 +6,11 @@ import {
   Image,
   ListGroup,
   Card,
-  Button,
-  Form,
+  Button
 } from "react-bootstrap";
 import Rating from "../components/Rating";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
 import { useGetProductDetailsQuery } from "../slices/productsApiSlice";
 
 const ProductScreen = () => {
@@ -29,11 +29,13 @@ const ProductScreen = () => {
 
       {isLoading ? (
         <>
-          <h2>Loading...</h2>
+          <Loader />
         </>
       ) : error ? (
         <>
-          <div>{error.data}</div>
+          <Message variant="danger">
+            {error?.data?.message || error.error}
+          </Message>
         </>
       ) : (
         <>
